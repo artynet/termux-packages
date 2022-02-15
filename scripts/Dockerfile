@@ -15,8 +15,9 @@ COPY ./setup-ubuntu.sh ./setup-android-sdk.sh ./properties.sh /tmp/
 # Setup needed packages and the Android SDK and NDK:
 RUN apt-get update && \
 	apt-get -yq upgrade && \
+	groupadd -g 1001 builder && \
 	apt-get install -yq sudo lsb-release software-properties-common && \
-	adduser --disabled-password --shell /bin/bash --gecos "" builder && \
+	adduser --uid 1001 --gid 1001 --disabled-password --shell /bin/bash --gecos "" builder && \
 	echo "builder ALL=(root) NOPASSWD:ALL" > /etc/sudoers.d/builder && \
 	chmod 0440 /etc/sudoers.d/builder && \
 	su - builder -c /tmp/setup-ubuntu.sh && \
